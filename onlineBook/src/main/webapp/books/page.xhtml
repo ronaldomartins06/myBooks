@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<body>
+	<h:form>
+	
+	<div>
+		<h:outputLabel value="Título" />
+		<h:inputText value="#{adminBookBean.book.title}"/>
+	</div>
+	<div>
+		<h:outputLabel value="Descrição" />
+		<h:inputTextarea  value="#{adminBookBean.book.description}" rows="4" cols="20"/>
+	</div>
+	<div>
+		<h:outputLabel value="Número de Páginas" />
+		<h:inputText value="#{adminBookBean.book.pageNumber}"/>
+	</div>
+	<div>
+		<h:outputLabel value="Preço" />
+		<h:inputText value="#{adminBookBean.book.price}"/>
+	</div>
+	
+	<div>
+		<h:outputLabel value="Authors" />
+		<h:selectManyListbox value="#{adminBookBean.authorsId}" converter="javax.faces.Integer">
+			 <f:selectItems value="#{adminBookBean.allAuthors}"
+			 	var="author" itemValue="#{author.id}" itemLabel="#{author.name}"/>	 
+		</h:selectManyListbox>
+	</div>
+	
+	<h:commandButton value="Cadastrar" action="#{adminBookBean.salvar}"/>
+</h:form>
+</body>
+</html>
