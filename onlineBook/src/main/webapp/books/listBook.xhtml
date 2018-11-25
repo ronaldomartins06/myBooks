@@ -7,6 +7,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <body>
+	<h:messages/>
 	<h:dataTable var="book" value="#{adminListBookBean.books}">
 		<h:column>
 			<f:facet name="header">Title</f:facet>
@@ -33,6 +34,12 @@
 			<ui:repeat var="author" value="#{book.authors}">
 				#{author.name},
 			</ui:repeat>
+		</h:column>
+		
+		<h:column>
+			<f:facet name="header">Cover</f:facet>
+			<img src="#{request.contextPath}/file/#{book.coverPath}"
+					height="5%" alt="#{book.title}"/>
 		</h:column>
 	</h:dataTable>
 </body>

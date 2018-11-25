@@ -6,31 +6,49 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <body>
-	<h:form>
 	
+	<h:form enctype="multipart/form-data">
 	<div>
-		<h:outputLabel value="Título" />
-		<h:inputText value="#{adminBookBean.book.title}"/>
+		<h:outputLabel value="Title" />
+		<h:inputText value="#{adminBookBean.book.title}" required="true" id="title"/>
+		<h:message for="title"/>
 	</div>
 	<div>
-		<h:outputLabel value="Descrição" />
-		<h:inputTextarea  value="#{adminBookBean.book.description}" rows="4" cols="20"/>
+		<h:outputLabel value="Description" />
+		<h:inputTextarea  value="#{adminBookBean.book.description}" rows="4" cols="20"
+							required="true" id="description"/>
+		<h:message for="description"/>
 	</div>
 	<div>
-		<h:outputLabel value="Número de Páginas" />
-		<h:inputText value="#{adminBookBean.book.pageNumber}"/>
+		<h:outputLabel value="Page Numbers" />
+		<h:inputText value="#{adminBookBean.book.pageNumber}" 
+						required="true" id="pageNumber"/>
+		<h:message for="pageNumber"/>
 	</div>
 	<div>
-		<h:outputLabel value="Preço" />
-		<h:inputText value="#{adminBookBean.book.price}"/>
+		<h:outputLabel value="Price" />
+		<h:inputText value="#{adminBookBean.book.price}" required="true" id="price"/>
+		<h:message for="price"/>
 	</div>
 	
 	<div>
 		<h:outputLabel value="Authors" />
-		<h:selectManyListbox value="#{adminBookBean.authorsId}" converter="javax.faces.Integer">
+		<h:selectManyListbox value="#{adminBookBean.book.authors}" converter="authorConverter" id="authors">
 			 <f:selectItems value="#{adminBookBean.allAuthors}"
-			 	var="author" itemValue="#{author.id}" itemLabel="#{author.name}"/>	 
+			 	var="author" itemValue="#{author}" itemLabel="#{author.name}"/>	 
 		</h:selectManyListbox>
+		<h:message for="authors"/>
+	</div>
+	
+	<div>
+		<h:outputLabel value="Date"/>
+		<h:inputText value="#{adminBookBean.book.currentDate}" id="currentDate"/>
+		<h:message for="currentDate"/>
+	</div>
+	<div>
+		<h:outputLabel value="Book Cover"/>
+		<h:inputFile  value="#{adminBookBean.bookCover}" id="bookCover"/>
+		<h:message for="bookCover"/>
 	</div>
 	
 	<h:commandButton value="Cadastrar" action="#{adminBookBean.salvar}"/>

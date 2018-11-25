@@ -1,15 +1,19 @@
 package br.com.ronaldo.onlineBook.beans;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.Part;
 import javax.transaction.Transactional;
 
 import br.com.ronaldo.onlineBook.dao.AuthorDAO;
 import br.com.ronaldo.onlineBook.dao.BookDAO;
+import br.com.ronaldo.onlineBook.file.FileSaver;
 import br.com.ronaldo.onlineBook.models.Author;
 import br.com.ronaldo.onlineBook.models.Book;
 
@@ -25,19 +29,26 @@ public class AdminBookBean {
 
 	@Inject
 	private AuthorDAO authorDAO;
+	@Inject
+	private FacesContext context;
+
 	
-	private List<Integer> authorsId = new ArrayList<>();
+	private Part bookCover;
 	
 	@Transactional
-	public String salvar(){
+	public String salvar() throws IOException{
 		
-		for (Integer authorId : authorsId) {
-			book.getAuthors().add(new Author(authorId));
-		}
 		dao.save(book);
+		FileSaver fileSaver = new FileSaver();
+		book.setCoverPath(fileSaver.write(bookCover, "books"));
 		
 		this.book = new Book();
-		this.authorsId = new ArrayList<>();
+		
+		context.getExternalContext().getFlash()
+					.setKeepMessages(true);
+		
+		context.addMessage(null, new FacesMessage("Operacao realizada com sucesso"));
+		
 		return "/books/listBook?faces-redirect=true";
 	}
 	
@@ -54,12 +65,12 @@ public class AdminBookBean {
 		this.book = book;
 	}
 
-	public List<Integer> getAuthorsId() {
-		return authorsId;
+	public Part getBookCover() {
+		return bookCover;
 	}
 
-	public void setAuthorsId(List<Integer> authorsId) {
-		this.authorsId = authorsId;
+	public void setBookCover(Part bookCover) {
+		this.bookCover = bookCover;
 	}
 
 	
